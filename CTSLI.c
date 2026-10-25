@@ -1,4 +1,4 @@
-//v1
+//v2
 #include <stdio.h>
 
 #define PLAYER 0
@@ -27,7 +27,6 @@
 #define TUTORIAL_END 6
 #define END_EFFECTIVE 7
 #define END_NO_EFFECTIVE 8
-#define END_ANOMALY 9
 
 #define END_GAME 1 //активные катсцены
 
@@ -37,9 +36,12 @@
 #define RIGHT 40
 #define PULL 50
 
+#define EN 0 //языки
+#define RU 1
+
 unsigned int action_counter=0,deaths=0,efficiency=0; //счётчики
 char input,up='w',down='s',left='a',right='d',pull='f',exitlevel=0,restartlevel=0,start_level=0; //управление и флаги
-unsigned char level;
+unsigned char level,lang=EN;
 
 void clear(void) {
 printf("\e[0;0H"); //курсор в самое начало консоли
@@ -47,19 +49,20 @@ printf("\e[J"); //очистить всё перед курсором
 }
 
 void inputt(char *input) {
-printf("\e[37minput: ");
+printf("\e[0minput: ");
 scanf("%c" ,&*input);
 while(getchar() != '\n');
 }
 
 void numinputt(char *input) {
-printf("\e[37minput: ");
+printf("\e[0minput: ");
 scanf("%hhu" ,&*input);
 while(getchar() != '\n');
 }
 
 void About_the_game(void) {
 clear();
+if (lang==EN) {
 printf("                Created by:              /\\\n");
 printf("                   TIZUVE                \\/\n");
 printf("                                            \n");
@@ -70,11 +73,25 @@ printf("                                            \n");
 printf("            Enter any character             \n");
 printf("           to return to the menu            \n");
 printf("                                            \n");
+}
+else if (lang==RU) {
+printf("               Игра создана:             /\\\n");
+printf("                   TIZUVE                \\/\n");
+printf("                                            \n");
+printf("                Вдохновлено:                \n");
+printf("              игрой ''Portal''              \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("            Введите любой символ            \n");
+printf("           чтобы вернуться в меню           \n");
+printf("                                            \n");
+}
 inputt(&input);
 }
 
 void calebritewindow(void) {                             //настройки
 clear();
+if (lang==EN) {
 printf("============================================\n");
 printf("=            Window calibration            =\n");
 printf("=                                          =\n");
@@ -85,15 +102,29 @@ printf("=                                          =\n");
 printf("=            Recommended size:             =\n");
 printf("=                  44x12                   =\n");
 printf("============================================\n");
+}
+else if(lang==RU) {
+printf("============================================\n");
+printf("=             Калибровка окна              =\n");
+printf("=                                          =\n");
+printf("=                                          =\n");
+printf("=           Введите любой символ           =\n");
+printf("=             чтобы продолжить             =\n");
+printf("=                                          =\n");
+printf("=           Рекомендуемый размер:          =\n");
+printf("=                  44x12                   =\n");
+printf("============================================\n");
+}
 inputt(&input);
 }
 
 void Changing_settings(char change) {
 clear();
-printf("\n");
-printf("\n");
-printf("\n");
-printf("\n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+if (lang==EN) {
 printf("     Enter what you want to reassign to:    \n");
 if(change == UP) {
 printf("                     UP                     \n");
@@ -110,10 +141,29 @@ printf("                    RIGHT                   \n");
 else if (change == PULL) {
 printf("                    PULL                    \n");
 }
-printf("\n");
-printf("\n");
-printf("\n");
-printf("\n");
+}
+else if (lang==RU) {
+printf("     Введите на что вы хотите изменить:     \n");
+if(change == UP) {
+printf("                    ВВЕРХ                   \n");
+}
+else if (change == DOWN) {
+printf("                    ВНИЗ                    \n");
+}
+else if (change == LEFT) {
+printf("                   ВЛЕВО                    \n");
+}
+else if (change == RIGHT) {
+printf("                   ВПРАВО                   \n");
+}
+else if (change == PULL) {
+printf("                   ТЯНУТЬ                   \n");
+}
+}
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
 if(change == UP) {
 inputt(&up);
 }
@@ -134,16 +184,30 @@ inputt(&pull);
 void Setting_menu(void) {
 while(1) {
 clear();
+if (lang==EN) {
 printf("#==========================================#\n");
 printf("|   1 UP...............................%c   |\n",up);
 printf("|   2 DOWN.............................%c   |\n",down);
 printf("|   3 LEFT.............................%c   |\n",left);
 printf("|   4 RIGHT............................%c   |\n",right);
 printf("|   5 PULL.............................%c   |\n",pull);
-printf("|           6 Window calibration           |\n");
-printf("|            7 Default settings            |\n");
-printf("|            8 Exit to the menu            |\n");
+printf("|   6 Window calibration   7 Language=En   |\n");
+printf("|          8 Default settings              |\n");
+printf("|          9 Exit to the menu              |\n");
 printf("#==========================================#\n");
+}
+else if (lang==RU) {
+printf("#==========================================#\n");
+printf("|   1 ВВЕРХ............................%c   |\n",up);
+printf("|   2 ВНИЗ.............................%c   |\n",down);
+printf("|   3 ВЛЕВО............................%c   |\n",left);
+printf("|   4 ВПРАВО...........................%c   |\n",right);
+printf("|   5 ТЯНУТЬ...........................%c   |\n",pull);
+printf("|   6 Калибровка окна      7 Language=Ru   |\n");
+printf("|          8 Настройки по умолчанию        |\n");
+printf("|          9 Выйти в меню                  |\n");
+printf("#==========================================#\n");
+}
 numinputt(&input);
 if (input == 1) {
 Changing_settings(UP);
@@ -164,9 +228,17 @@ else if (input == 6) {
 calebritewindow();
 }
 else if (input == 7) {
-up='w',down='s',left='a',right='d',pull='f';
+	if (lang==EN) {
+		lang=RU;
+	}
+	else if (lang==RU) {
+		lang=EN;
+	}
 }
 else if (input == 8) {
+up='w',down='s',left='a',right='d',pull='f';
+}
+else if (input == 9) {
 break;
 }
 }
@@ -260,8 +332,7 @@ else if ((*struclevel)[v][g] == L) {
 printf("$");
 }
 else if ((*struclevel)[v][g] == OL) {
-char c432='%';
-printf("%c",c432);
+printf("%%");
 }
 else if ((*struclevel)[v][g] == Y) {
 printf("\e[32m");
@@ -621,6 +692,7 @@ break;
 } //конец кадра катсцены
 while (1) { //начало кадра катсцены
 clear();
+if (lang==EN) {
 printf("My dear friend!                             \n");
 printf("Welcome to the first stage                  \n");
 printf("mandatory testing.                          \n");
@@ -631,6 +703,19 @@ printf("But before that,                            \n");
 printf("you will need to go through the training,   \n");
 printf("it will take place in five stages.          \n");
 printf("Now you will go to the first stage...       \n");
+}
+else if (lang==RU) {
+printf("Мой дорогой друг!                           \n");
+printf("Добро пожаловать на первый этап             \n");
+printf("обязательного тестирования.                 \n");
+printf("На этом этапе,вам предстоит пройти          \n");
+printf("10 тестовых камер.                          \n");
+printf("Но перед этим,                              \n");
+printf("вам нужно будет пройти обучение,            \n");
+printf("оно будет длиться пять этапов.              \n");
+printf("Теперь вы отправитесь на первый этап...     \n");
+printf("                                            \n");
+}
 inputt(&input);
 if (input=='S'||input=='s') {
 return 0;
@@ -641,6 +726,7 @@ break;
 } //конец кадра катсцены
 while (1) { //начало кадра катсцены
 clear();
+if(lang==EN) {
 printf("             walking=[%c,%c,%c,%c]              \n",up,down,left,right);
 printf("                                            \n");
 printf("                                            \n");
@@ -651,6 +737,19 @@ printf("                                            \n");
 printf("                                            \n");
 printf("To get started,                             \n");
 printf("you'll probably need to go to the cube[N]   \n");
+}
+else if (lang==RU) {
+printf("            ходьба=[%c,%c,%c,%c]                \n",up,down,left,right);
+printf("                                            \n");
+printf("                                            \n");
+printf("     ===     ===                            \n");
+printf("    1N=@    2N@=                            \n");
+printf("     =O=     =O=                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("Для начала вам вероятно понадобится         \n");
+printf("подойти к кубу[N]                           \n");
+}
 inputt(&input);
 if (input=='S'||input=='s') {
 return 0;
@@ -661,6 +760,7 @@ break;
 } //конец кадра катсцены
 while (1) { //начало кадра катсцены
 clear();
+if (lang==EN) {
 printf("                  pull=[%c]                  \n",pull);
 printf("                                            \n");
 printf("                                            \n");
@@ -671,6 +771,19 @@ printf("                                            \n");
 printf("                                            \n");
 printf("Then, you'll probably need to pull the cube \n");
 printf("                                            \n");
+}
+else if (lang==RU) {
+printf("                тянуть=[%c]                  \n",pull);
+printf("                                            \n");
+printf("                                            \n");
+printf("     ===     ===     ===                    \n");
+printf("    1N=@    2N@=    3=N@                    \n");
+printf("     =O=     =O=     =O=                    \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("Затем вам вероятно понадобится потянуть куб \n");
+printf("                                            \n");
+}
 inputt(&input);
 if (input=='S'||input=='s') {
 return 0;
@@ -689,8 +802,14 @@ printf("    1N=@    2N@=    3=N@    4=N=    5=@=    \n");
 printf("     =O=     =O=     =O=     =O=     =0=    \n");
 printf("                                            \n");
 printf("                                            \n");
+if (lang==EN) {
 printf("Then, you'll probably need to pull the cube \n");
 printf("and push it onto the button.[O]             \n");
+}
+else if (lang==RU) {
+printf("Затем вам вероятно понадобится потянуть куб \n");
+printf("и толкнуть на кнопку[O].                    \n");
+}
 inputt(&input);
 if (input=='S'||input=='s') {
 return 0;
@@ -705,8 +824,14 @@ printf("                                            \n");
 printf("                                            \n");
 printf("                                            \n");
 printf("                                            \n");
+if (lang==EN) {
 printf("      After pressing all the buttons,       \n");
 printf("         the lift[$] will open[%]           \n");
+}
+else if (lang==RU) {
+printf("        После нажатия на все кнопки,        \n");
+printf("            лифт[$] откроется[%]            \n");
+}
 printf("                                            \n");
 printf("                                            \n");
 printf("                                            \n");
@@ -747,7 +872,12 @@ printf("                                            \n");
 printf("                                            \n");
 printf("                                            \n");
 printf("                                            \n");
+if (lang==EN) {
 printf(" Next, you will get acquainted with acid[\e[32m~\e[0m] \n");
+}
+else if (lang==RU) {
+printf("   Далее, вы познакомитесь с кислотой[\e[32m~\e[0m]    \n");
+}
 printf("                                            \n");
 printf("                                            \n");
 printf("                                            \n");
@@ -766,10 +896,18 @@ clear();
 printf("                                            \n");
 printf("                                            \n");
 printf("                                            \n");
+if (lang==EN) {
 printf("   The acid eats away everything organic    \n");
 printf("            at an amazing rate,             \n");
 printf("   for this reason it is not recommended    \n");
 printf("                to touch it.                \n");
+}
+else if (lang==RU) {
+printf("      Кислота с невероятной скоростью       \n");
+printf("           ест всё органическое.            \n");
+printf("    Поэтому её не рекомендуется трогать.    \n");
+printf("                                            \n");
+}
 printf("                                            \n");
 printf("                                            \n");
 printf("                                            \n");
@@ -790,9 +928,16 @@ printf("                                            \n");
 printf("                                            \n");
 printf("                                            \n");
 printf("                                            \n");
+if (lang==EN) {
 printf("Luckily for you,                            \n");
 printf("the laboratory uses only environmentally    \n");
 printf("dirty materials.                            \n");
+}
+else if (lang==RU) {
+printf("К счастью для вас,                          \n");
+printf("лаборатория использует только               \n");
+printf("экологически грязные материалы.             \n");
+}
 inputt(&input);
 if (input=='S'||input=='s') {
 return 0;
@@ -811,8 +956,14 @@ printf("         ==\e[32m~\e[0m==     ==\e[32m~\e[0m==       \e[32m \e[0m       
 printf("         $=\e[32m~\e[0m=O     $=\e[32m~\e[0m=O       \e[32m \e[0m            \n");
 printf("                                            \n");
 printf("                                            \n");
+if (lang==EN) {
 printf("Therefore, you can throw the cube into acid \n");
 printf("by creating a bridge[\e[32mN\e[0m] for yourself.       \n");
+}
+else if (lang==RU) {
+printf("Поэтому,вы можете закинуть куб в кислоту    \n");
+printf("чтобы создать для себя мост[\e[32mN\e[0m].             \n");
+}
 inputt(&input);
 if (input=='S'||input=='s') {
 return 0;
@@ -830,9 +981,16 @@ printf("         @N\e[32m~\e[0m==     =@\e[32mN\e[0m==     ==\e[32mN\e[0m==     
 printf("         ==\e[32m~\e[0m==     ==\e[32m~\e[0m==     ==\e[32m~\e[0m==          \n");
 printf("         $=\e[32m~\e[0m=O     $=\e[32m~\e[0m=O     $=\e[32m~\e[0m=O          \n");
 printf("                                            \n");
+if (lang==EN) {
 printf("if you messed up and, for example,          \n");
 printf("drowned all your cubes when you need them   \n");
-printf("somewhere else.                           \n");
+printf("somewhere else.                             \n");
+}
+else if(lang==RU) {
+printf("Если вы накосячили и например               \n");
+printf("утопили все свои кубы                       \n");
+printf("когда они нужны где-то ещё.                 \n");
+}
 inputt(&input);
 if (input=='S'||input=='s') {
 return 0;
@@ -850,9 +1008,16 @@ printf("         @N\e[32m~\e[0m==     =@\e[32mN\e[0m==     ==\e[32mN\e[0m==     
 printf("         ==\e[32m~\e[0m==     ==\e[32m~\e[0m==     ==\e[32m~\e[0m==          \n");
 printf("         $=\e[32m~\e[0m=O     $=\e[32m~\e[0m=O     $=\e[32m~\e[0m=O          \n");
 printf("                                            \n");
+if (lang==EN) {
 printf("You can eliminate yourself,                 \n");
 printf("after which we will reset the camera        \n");
 printf("and send the next test subject into it.     \n");
+}
+else if(lang==RU) {
+printf("Вы можете устранить себя,                   \n");
+printf("после чего мы очистим камеру                \n");
+printf("и отправим в неё следующего испытуемого.    \n");
+}
 inputt(&input);
 if (input=='S'||input=='s') {
 return 0;
@@ -889,8 +1054,14 @@ printf("                                            \n");
 printf("                                            \n");
 printf("                                            \n");
 printf("                                            \n");
+if (lang==EN) {
 printf("         In the next test chamber,          \n");
 printf("       you'll encounter the void[ ].        \n");
+}
+else if(lang==RU) {
+printf("        В следующей тестовой камере,        \n");
+printf("       вы познакомитесь с пустотой[ ].      \n");
+}
 printf("                                            \n");
 printf("                                            \n");
 printf("                                            \n");
@@ -907,12 +1078,22 @@ while (1) { //начало кадра катсцены
 clear();
 printf("                                            \n");
 printf("                                            \n");
+if (lang==EN) {
 printf("        Having fallen into the void,        \n");
 printf("        it is highly not recommended        \n");
 printf("          to try to save yourself.          \n");
 printf(" You can interfere with other test subjects \n");
 printf("           in other test chambers           \n");
 printf("          or damage the equipment.          \n");
+}
+else if(lang==RU) {
+printf("                                            \n");
+printf("      Падая в пустоту,не рекомендуется      \n");
+printf("           пытаться себя спасти.            \n");
+printf("    Вы можете помешать другим испытуемым    \n");
+printf("        или повредить оборудование.         \n");
+printf("                                            \n");
+}
 printf("                                            \n");
 printf("                                            \n");
 inputt(&input);
@@ -929,8 +1110,14 @@ printf("                                            \n");
 printf("                                            \n");
 printf("                                            \n");
 printf("                                            \n");
+if (lang==EN) {
 printf("         It's better to just enjoy          \n");
 printf("      your approx hundred-second drop.      \n");
+}
+else if (lang==RU) {
+printf("         Лучше просто наслаждайтесь         \n");
+printf("    своим примерно стасекундным падением    \n");
+}
 printf("                                            \n");
 printf("                                            \n");
 printf("                                            \n");
@@ -947,12 +1134,22 @@ while (1) { //начало кадра катсцены
 clear();
 printf("                                            \n");
 printf("                                            \n");
+if (lang==EN) {
 printf("               After a fall,                \n");
 printf("      your body will be identified by       \n");
 printf("        specially trained employees.        \n");
 printf("    You don't have to worry about them,     \n");
 printf("   their helmets are prone to collisions    \n");
 printf(" at speeds up to 3600 kilometres per hour.  \n");
+}
+else if (lang==RU) {
+printf("             После приземления,             \n");
+printf("             ваше тело опознают             \n");
+printf("      специально обученные сотрудники.      \n");
+printf("     Вы можете не беспокоиться за них,      \n");
+printf("  у них каски рассчитанные на столкновения  \n");
+printf("    со скоростью 3600 километров в час.     \n");
+}
 printf("                                            \n");
 printf("                                            \n");
 inputt(&input);
@@ -969,9 +1166,16 @@ printf("                                            \n");
 printf("                                            \n");
 printf("                                            \n");
 printf("                                            \n");
+if (lang==EN) {
 printf("    Also, before the next test chamber,     \n");
 printf("   keep in mind that the button mechanism   \n");
 printf("     tightly fixes the cube in itself.      \n");
+}
+else if (lang==RU) {
+printf("  А ещё, перед следующей тестовой камерой,  \n");
+printf("  учтите,что механизм кнопки после нажатия  \n");
+printf("      намертво фиксирует в себе кубы.       \n");
+}
 printf("                                            \n");
 printf("                                            \n");
 printf("                                            \n");
@@ -1008,11 +1212,20 @@ break;
 while (1) { //начало кадра катсцены
 clear();
 printf("                                            \n");
+if (lang==EN) {
 printf("            In the next chamber,            \n");
 printf(" you will get acquainted with the conveyors \n");
 printf("                                            \n");
 printf("      They can have a direction namely      \n");
 printf("   up[^], down[V], left[<] and right[>].    \n");
+}
+else if (lang==RU) {
+printf("            В следующей камере,             \n");
+printf("      вы познакомитесь с конвейерами.       \n");
+printf("                                            \n");
+printf("         Они могут быть направлены:         \n");
+printf("   вверх[^],вниз[V],влево[<] и вправо[>].   \n");
+}
 printf("                                            \n");
 printf("                                            \n");
 printf("                                            \n");
@@ -1035,7 +1248,12 @@ printf("                                            \n");
 printf("                                            \n");
 printf("                                            \n");
 printf("                                            \n");
+if (lang==EN) {
 printf("Conveyors can move you                      \n");
+}
+else if(lang==RU) {
+printf("Конвейеры могут двигать вас                 \n");
+}
 printf("                                            \n");
 inputt(&input);
 if (input=='S'||input=='s') {
@@ -1047,6 +1265,7 @@ break;
 } //конец кадра катсцены
 while (1) { //начало кадра катсцены
 clear();
+if (lang==EN) {
 printf("     Expectation=[any unassigned input]     \n");
 printf("     1        2        3        4           \n");
 printf("      @>>$     >@>$     >>@$     >>>%       \n");
@@ -1057,6 +1276,19 @@ printf("                                            \n");
 printf("                                            \n");
 printf("Conveyors can move you                      \n");
 printf("and cubes.                                  \n");
+}
+else if (lang==RU) {
+printf("    Ожидание=[любой не назначенный ввод]    \n");
+printf("     1        2        3        4           \n");
+printf("      @>>$     >@>$     >>@$     >>>%       \n");
+printf("                                            \n");
+printf("      N>>O     >N>O     >>NO     >>>0       \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("Конвейеры могут двигать вас                 \n");
+printf("и кубы.                                     \n");
+}
 inputt(&input);
 if (input=='S'||input=='s') {
 return 0;
@@ -1071,8 +1303,14 @@ printf("                                            \n");
 printf("                                            \n");
 printf("                                            \n");
 printf("                                            \n");
+if (lang==EN) {
 printf("   The speed of the conveyors is slightly   \n");
 printf("   higher than the average walking speed.   \n");
+}
+else if(lang==RU) {
+printf("      Скорость конвейеров чуть больше       \n");
+printf("          средней скорости ходьбы.          \n");
+}
 printf("                                            \n");
 printf("                                            \n");
 printf("                                            \n");
@@ -1113,9 +1351,16 @@ printf("                                            \n");
 printf("                                            \n");
 printf("                                            \n");
 printf("                                            \n");
+if (lang==EN) {
 printf("         In the next test chamber,          \n");
 printf("          you will meet lasers[\e[41m \e[0m]           \n");
 printf("           and their sources.[X]            \n");
+}
+else if(lang==RU) {
+printf("        В следующей тестовой камере,        \n");
+printf("       вы познакомитесь с лазерами[\e[41m \e[0m]       \n");
+printf("            и их источниками[X].            \n");
+}
 printf("                                            \n");
 printf("                                            \n");
 printf("                                            \n");
@@ -1137,8 +1382,14 @@ printf("           \e[41m==\e[0mX\e[41m==\e[0m                            \n");
 printf("           ==\e[41m=\e[0m==                            \n");
 printf("           ==\e[41m=\e[0m==                            \n");
 printf("                                            \n");
+if(lang==EN) {
 printf("The source emits lasers                     \n");
 printf("in four directions around itself.           \n");
+}
+else if (lang==RU) {
+printf("                                            \n");
+printf("Источник испускает лучи во все 4 стороны.   \n");
+}
 inputt(&input);
 if (input=='S'||input=='s') {
 return 0;
@@ -1158,7 +1409,12 @@ printf("           ==\e[41m=\e[0m==            ==\e[41m=\e[0m==           \n");
 printf("           ==\e[41m=\e[0m==            ==#==           \n");
 printf("                                            \n");
 printf("                                            \n");
+if(lang==EN) {
 printf("So, the laser goes to the first obstacle.   \n");
+}
+else if(lang==RU) {
+printf("Лучи идут вперёд до первого препятствия.    \n");
+}
 inputt(&input);
 if (input=='S'||input=='s') {
 return 0;
@@ -1173,9 +1429,16 @@ printf("                                            \n");
 printf("                                            \n");
 printf("                                            \n");
 printf("                                            \n");
+if (lang==EN) {
 printf(" It is not recommended to touch the laser,  \n");
 printf("          because its temperature           \n");
 printf("    is about 20 million degrees Celsius.    \n");
+}
+else if(lang==RU) {
+printf("      Не рекомендуется трогать лазер,       \n");
+printf("         потому что его температура         \n");
+printf("       20 миллионов градусов Цельсия.       \n");
+}
 printf("                                            \n");
 printf("                                            \n");
 printf("                                            \n");
@@ -1193,9 +1456,16 @@ printf("                                            \n");
 printf("                                            \n");
 printf("                                            \n");
 printf("                                            \n");
+if (lang==EN) {
 printf("     Although you can stand next to it,     \n");
 printf("     because the air in the complex is      \n");
 printf("            extremely rarefied.             \n");
+}
+else if(lang==RU) {
+printf("         Но вы можете стоять рядом,         \n");
+printf(" ведь в комплексе очень разряжённый воздух. \n");
+printf("                                            \n");
+}
 printf("                                            \n");
 printf("                                            \n");
 printf("                                            \n");
@@ -1231,16 +1501,30 @@ break;
 } //конец кадра катсцены
 while (1) { //начало кадра катсцены
 clear();
+if (lang==EN) {
 printf("We congratulate you,                        \n");
-printf("test subject number %03d,                      \n",deaths);
+printf("test subject number %03d,                   \n",deaths);
 printf("on successfully completing the training.    \n");
 printf("There are 10 test chambers                  \n");
 printf("ahead of you that you have to solve.        \n");
 printf("Good luck!                                  \n");
 printf("                                            \n");
 printf("                                            \n");
+printf("Caution: The complex is not responsible     \n");
+printf("for injury and/or death during testing.     \n");
+}
+else if(lang==RU) {
+printf("Мы поздравляем вас,                         \n");
+printf("испытуемый номер %03d,                      \n",deaths);
+printf("с успешным завершением обучения.            \n");
+printf("Дальше вас ждут 10 тестовых камер.          \n");
+printf("Удачи!                                      \n");
 printf("                                            \n");
 printf("                                            \n");
+printf("Внимание: комплекс не несёт ответственности \n");
+printf("за получение увечий и/или смерти            \n");
+printf("во время тестирования.                      \n");
+}
 inputt(&input);
 if (input=='S'||input=='s') {
 return 0;
@@ -1253,6 +1537,7 @@ break;
 else if (id_cutscenes == END_EFFECTIVE) { //начало катсцены
 while (1) { //начало кадра катсцены
 clear();
+if (lang==EN) {
 printf("Report on Subject № %03d                     \n",deaths);                                                                                                                                              
 printf("                                            \n");                                                                                                                                                
 printf("The effectiveness of the subject is %d%%\n",efficiency);                                                                                                                                                   
@@ -1268,6 +1553,24 @@ printf(" ########  Enter 'C'                        \n");
 printf(" X====@=%%  to start executing.             \n");                                                                                                                                                   
 printf(" ########                                   \n");                                                                                                                                                   
 printf("                                            \n");
+}
+else if(lang==RU) {
+printf("Отчёт о испытуемом № %03d                    \n",deaths);                                                                                                                                              
+printf("                                            \n");                                                                                                                                                
+printf("Эффективность испытуемого %d%%\n",efficiency);                                                                                                                                                   
+printf("                                            \n");
+if (start_level!=1) {
+printf("Вердикт: Устранить аномалию.                \n");
+}
+else {
+printf("Вердикт: Устранить.                         \n");
+}
+printf("                                            \n");                                                                                                                                                   
+printf(" ########  Enter 'C'                        \n");                                                                                                                                                   
+printf(" X====@=%%  to start executing.             \n");                                                                                                                                                   
+printf(" ########                                   \n");                                                                                                                                                   
+printf("                                            \n");
+}
 inputt(&input);
 if (input=='C'||input=='c') {
 break;
@@ -1275,6 +1578,7 @@ break;
 } //конец кадра катсцены
 while (1) { //начало кадра катсцены
 clear();
+if(lang==EN) {
 printf("Report on Subject № %03d                     \n",deaths);                                                                                                                                              
 printf("                                            \n");                                                                                                                                                
 printf("The effectiveness of the subject is %d%%\n",efficiency);                                                                                                                                                    
@@ -1290,6 +1594,24 @@ printf(" ########  Enter 'C'                        \n");
 printf(" X\e[41m====\e[33m@\e[0m=%%  to start executing.              \n");                                                                                                                                                   
 printf(" ########                                   \n");                                                                                                                                                   
 printf("                                            \n");
+}
+else if(lang==RU) {
+printf("Отчёт о испытуемом № %03d                    \n",deaths);                                                                                                                                              
+printf("                                            \n");                                                                                                                                                
+printf("Эффективность испытуемого %d%%\n",efficiency);                                                                                                                                                   
+printf("                                            \n");
+if (start_level!=1) {
+printf("Вердикт: Устранить аномалию.                \n");
+}
+else {
+printf("Вердикт: Устранить.                         \n");
+}
+printf("                                            \n");                                                                                                                                                   
+printf(" ########  Enter 'C'                        \n");                                                                                                                                                   
+printf(" X\e[41m====\e[33m@\e[0m=%%  to start executing.              \n");                                                                                                                                                   
+printf(" ########                                   \n");                                                                                                                                                   
+printf("                                            \n");
+}
 inputt(&input);
 if (input=='C'||input=='c') {
 break;
@@ -1297,6 +1619,7 @@ break;
 } //конец кадра катсцены
 while (1) { //начало кадра катсцены
 clear();
+if (lang==EN) {
 printf("Report on Subject № %03d                     \n",deaths);                                                                                                                                              
 printf("                                            \n");                                                                                                                                                
 printf("The effectiveness of the subject is %d%%\n",efficiency);                                                                                                                                              
@@ -1312,6 +1635,24 @@ printf(" ########  Enter 'C'                        \n");
 printf(" X\e[41m====\e[31;43ma\e[0m=%%  to start executing.              \n");                                                                                                                                                   
 printf(" ########                                   \n");                                                                                                                                                   
 printf("                                            \n");
+}
+else if(lang==RU) {
+printf("Отчёт о испытуемом № %03d                    \n",deaths);                                                                                                                                              
+printf("                                            \n");                                                                                                                                                
+printf("Эффективность испытуемого %d%%\n",efficiency);                                                                                                                                                   
+printf("                                            \n");
+if (start_level!=1) {
+printf("Вердикт: Устранить аномалию.                \n");
+}
+else {
+printf("Вердикт: Устранить.                         \n");
+}
+printf("                                            \n");                                                                                                                                                   
+printf(" ########  Enter 'C'                        \n");                                                                                                                                                   
+printf(" X\e[41m====\e[31;43ma\e[0m=%%  to start executing.              \n");                                                                                                                                                   
+printf(" ########                                   \n");                                                                                                                                                   
+printf("                                            \n");
+}
 inputt(&input);
 if (input=='C'||input=='c') {
 break;
@@ -1339,8 +1680,13 @@ clear();
 printf("                                            \n");                                                                                                                                                   
 printf("                                            \n");                                                                                                                                                   
 printf("                                            \n");                                                                                                                                                   
-printf("                                            \n");                                                                                                                                                   
-printf("           Thank you for playing!           \n");                                                                                                                                                   
+printf("                                            \n");
+if(lang==EN) {                                                                                                                                                 
+printf("           Thank you for playing!           \n");
+}
+else if(lang==RU) {
+printf("         Спасибо за то,что играли!          \n");
+}                                                                                                                                               
 printf("                                            \n");                                                                                                                                                   
 printf("                                            \n");                                                                                                                                                   
 printf("                                            \n");                                                                                                                                                   
@@ -1373,8 +1719,13 @@ clear();
 printf("                                            \n");                                                                                                                                                   
 printf("                                            \n");                                                                                                                                                   
 printf("                                            \n");                                                                                                                                                   
-printf("                                            \n");                                                                                                                                                   
-printf("           Thank you for playing!           \n");                                                                                                                                                   
+printf("                                            \n");
+if(lang==EN) {                                                                                                                                                 
+printf("           Thank you for playing!           \n");
+}
+else if(lang==RU) {
+printf("         Спасибо за то,что играли!          \n");
+}                                                                                                                                                   
 printf("                                            \n");                                                                                                                                                   
 printf("                                            \n");                                                                                                                                                   
 printf("                                            \n");                                                                                                                                                   
@@ -1401,7 +1752,12 @@ if (x>=3||*step>=1) {
 		*step=1;
 	}
 	printf("\e[1;1H");
-	printf("Report on Subject № ");
+	if(lang==EN) {
+		printf("Report on Subject № ");
+	}
+	else if (lang==RU) {
+		printf("Отчёт о испытуемом № ");
+	}
 	printf("%03d",deaths);
 }
 if (x>=4||*step>=2) {
@@ -1409,7 +1765,12 @@ if (x>=4||*step>=2) {
 		*step=2;
 	}
 	printf("\e[3;1H");
-	printf("The effectiveness of the subject is ");
+	if(lang==EN) {
+		printf("The effectiveness of the subject is ");
+	}
+	else if(lang==RU) {
+		printf("Эффективность испытуемого ");
+	}
 	printf("%d%%",efficiency);
 }
 if (x>=5||*step>=3) {
@@ -1418,17 +1779,32 @@ if (x>=5||*step>=3) {
 	}
 	if (start_level!=1) {
 		printf("\e[5;1H");
-		printf("Verdict: Eliminate anomaly.");
+		if(lang==EN) {
+			printf("Verdict: Eliminate anomaly.");
+		}
+		else if(lang==RU) {
+			printf("Вердикт: Устранить аномалию.");
+		}
 		*step=4;
 	}
 	else if (efficiency>=100) {
 		printf("\e[5;1H");
-		printf("Verdict: Eliminate.");
+		if(lang==EN) {
+			printf("Verdict: Eliminate.");
+		}
+		else if(lang==RU) {
+			printf("Вердикт: Устранить.");
+		}
 		*step=5;
 	}
 	else if (efficiency<=100) {
 		printf("\e[5;1H");
-		printf("Verdict: Postpone to the second stage.");
+		if(lang==EN) {
+			printf("Verdict: Postpone to the second stage.");
+		}
+		else if(lang==RU) {
+			printf("Вердикт: Пропустить на второй этап.");
+		}
 		*step=6;
 	}
 }
@@ -2245,6 +2621,7 @@ action_counter=0;
 efficiency=0;
 exitlevel=0;
 clear();
+if (lang==EN) {
 printf("        Enter the number of the level       \n");
 printf("             you want to enter              \n");
 printf("                                            \n");
@@ -2255,6 +2632,19 @@ printf("  4(conveyor) 10(one cube)                  \n");
 printf("  5(lasers  ) 11(centre  ) 0 to get out     \n");
 printf("  6(beam    ) 12(ejection)                  \n");
 printf("                                            \n");
+}
+else if (lang==RU) {
+printf("            Введите номер уровня            \n");
+printf("          который вы хотите начать          \n");
+printf("                                            \n");
+printf("  1(куб     ) 7 (мост    ) 13(орбиты  )     \n");
+printf("  2(кислота ) 8 (круги   ) 14(вихри   )     \n");
+printf("  3(пустота ) 9 (студия  ) 15(комнаты )     \n");
+printf("  4(конвейер) 10(друг куб)                  \n");
+printf("  5(лазеры  ) 11(к центру) 0 что бы выйти   \n");
+printf("  6(луч     ) 12(выброс  )                  \n");
+printf("                                            \n");
+}
 numinputt(&level);
 if (level == 0) {
 break;
@@ -2270,7 +2660,7 @@ int main(void) {
 calebritewindow();
 while (1) {
 clear();
-printf("v1                                        /\\\n");
+printf("v2                                        /\\\n");
 printf("                ###########               \\/\n");
 printf("                #\e[41mC.T.S.L.I\e[0m#                 \n");
 printf("          #######################           \n");
