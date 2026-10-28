@@ -1,4 +1,4 @@
-//v2
+//v3
 #include <stdio.h>
 
 #define PLAYER 0
@@ -38,6 +38,11 @@
 
 #define EN 0 //языки
 #define RU 1
+
+#define ACID 0
+#define VOID 1
+#define LASER 2
+#define END 3
 
 unsigned int action_counter=0,deaths=0,efficiency=0; //счётчики
 char input,up='w',down='s',left='a',right='d',pull='f',exitlevel=0,restartlevel=0,start_level=0; //управление и флаги
@@ -244,10 +249,59 @@ break;
 }
 } 
                                                 //конец настроек
-void game_over(void) {
-deaths++;
-while(1) {
+void game_over(unsigned char type) {
+if(restartlevel!=1&&exitlevel!=1) {
 clear();
+if(lang==EN) {
+if(type==ACID) {
+printf("                    ===================     \n");
+printf(" Game over          =                 =     \n");
+printf("                    = Subgect № %03d   =    \n",deaths);
+printf("                    =                 =     \n");
+printf("                    = Cause of death: =     \n");
+printf("                    =                 =     \n");
+printf(" R = Return         = Wanted to touch =     \n");
+printf("                    = the acid.       =     \n");
+printf(" E = Exit           =                 =     \n");
+printf("                    ===================     \n");
+}
+else if(type==VOID) {
+printf("                    ===================     \n");
+printf(" Game over          =                 =     \n");
+printf("                    = Subgect № %03d   =    \n",deaths);
+printf("                    =                 =     \n");
+printf("                    = Cause of death: =     \n");
+printf("                    =                 =     \n");
+printf(" R = Return         = Wanted to test  =     \n");
+printf("                    = the depth.      =     \n");
+printf(" E = Exit           =                 =     \n");
+printf("                    ===================     \n");
+}
+else if(type==LASER) {
+printf("                    ===================     \n");
+printf(" Game over          =                 =     \n");
+printf("                    = Subgect № %03d   =    \n",deaths);
+printf("                    =                 =     \n");
+printf("                    = Cause of death: =     \n");
+printf("                    =                 =     \n");
+printf(" R = Return         = Wanted to touch =     \n");
+printf("                    = the light.      =     \n");
+printf(" E = Exit           =                 =     \n");
+printf("                    ===================     \n");
+}
+else if(type==END) {
+printf("                    ===================     \n");
+printf(" Game over          =                 =     \n");
+printf("                    = Subgect № %03d   =    \n",deaths);
+printf("                    =                 =     \n");
+printf("                    = Cause of death: =     \n");
+printf("                    =                 =     \n");
+printf(" R = Return         = Eliminate       =     \n");
+printf("                    = the threat.     =     \n");
+printf(" E = Exit           =                 =     \n");
+printf("                    ===================     \n");
+}
+else {
 printf("   ####      #     #       # ######         \n");
 printf("  #         # #    ##     ## #              \n");
 printf("  #  ###   #   #   # #   # # ######         \n");
@@ -258,6 +312,74 @@ printf("R = Return #    #  #     #  #      #    #   \n");
 printf("           #    #   #   #   ###### #####    \n");
 printf("E = Exit   #    #    # #    #      # #      \n");
 printf("            ####      #     ###### #  #     \n");
+}
+}
+else if(lang==RU) {
+if(type==ACID) {
+printf("                    ===================     \n");
+printf(" Game over          =                 =     \n");
+printf("                    = Субъект № %03d   =    \n",deaths);
+printf("                    =                 =     \n");
+printf("                    = Причина смерти: =     \n");
+printf("                    =                 =     \n");
+printf(" R = Return         = Хотел потрогать =     \n");
+printf("                    = кислоту.        =     \n");
+printf(" E = Exit           =                 =     \n");
+printf("                    ===================     \n");
+}
+else if(type==VOID) {
+printf("                    ===================     \n");
+printf(" Game over          =                 =     \n");
+printf("                    = Субъект № %03d   =    \n",deaths);
+printf("                    =                 =     \n");
+printf("                    = Причина смерти: =     \n");
+printf("                    =                 =     \n");
+printf(" R = Return         = Хотел проверить =     \n");
+printf("                    = глубину.        =     \n");
+printf(" E = Exit           =                 =     \n");
+printf("                    ===================     \n");
+}
+else if(type==LASER) {
+printf("                    ===================     \n");
+printf(" Game over          =                 =     \n");
+printf("                    = Субъект № %03d   =    \n",deaths);
+printf("                    =                 =     \n");
+printf("                    = Причина смерти: =     \n");
+printf("                    =                 =     \n");
+printf(" R = Return         = Хотел потрогать =     \n");
+printf("                    = свет.           =     \n");
+printf(" E = Exit           =                 =     \n");
+printf("                    ===================     \n");
+}
+else if(type==END) {
+printf("                    ===================     \n");
+printf(" Game over          =                 =     \n");
+printf("                    = Субъект № %03d   =    \n",deaths);
+printf("                    =                 =     \n");
+printf("                    = Причина смерти: =     \n");
+printf("                    =                 =     \n");
+printf("                    = Устранение      =     \n");
+printf("                    = угроз.          =     \n");
+printf(" E = Exit           =                 =     \n");
+printf("                    ===================     \n");
+}
+else {
+printf("   ####      #     #       # ######         \n");
+printf("  #         # #    ##     ## #              \n");
+printf("  #  ###   #   #   # #   # # ######         \n");
+printf("  #    #  #######  #  # #  # #              \n");
+printf("   ####  #       # #   #   # ######         \n");
+printf("            ####  #       # ###### #####    \n");
+printf("R = Return #    #  #     #  #      #    #   \n");
+printf("           #    #   #   #   ###### #####    \n");
+printf("E = Exit   #    #    # #    #      # #      \n");
+printf("            ####      #     ###### #  #     \n");
+}
+}
+deaths++;
+while(1) {
+printf("\e[11;0H");
+printf("\e[K");
 inputt(&input);
 if (input == 'R'||input == 'r') {
 restartlevel=1;
@@ -266,6 +388,7 @@ break;
 else if (input == 'E'||input == 'e') {
 exitlevel=1;
 break;
+}
 }
 }
 }
@@ -418,7 +541,7 @@ char golaser(char direction,char v,char g,unsigned char (*struclevel)[10][44],un
 					g+=dis_x;
 				}
 				else {
-					game_over();
+					game_over(LASER);
 					break;
 				}
 			}
@@ -455,7 +578,7 @@ char conv_move(char dis_y,char dis_x,char *y,char *x,char type,unsigned char (*s
 					return 1;
 				}
 				else {
-					game_over();
+					game_over(ACID);
 					return 1;
 				}
 			}
@@ -465,7 +588,7 @@ char conv_move(char dis_y,char dis_x,char *y,char *x,char type,unsigned char (*s
 					return 1;
 				}
 				else {
-					game_over();
+					game_over(VOID);
 					return 1;
 				}
 			}
@@ -564,20 +687,27 @@ dis_x=-1,dis_y=0;
 else if(*pullleft==1){
 dis_x=1,dis_y=0;
 }
-if((*object)[*player_y+(0-dis_y)][*player_x+(0-dis_x)]) {
-	if(walls(dis_y,dis_x,*player_y,*player_x,PLAYER,&(*struclevel))) {
-		if(!((*object)[*player_y+dis_y][*player_x+dis_x])) {
-			if((*struclevel)[*player_y+dis_y][*player_x+dis_x] == V||(*struclevel)[*player_y+dis_y][*player_x+dis_x] == Y) {
-				game_over();
-			}
-			else if((*struclevel)[*player_y+dis_y][*player_x+dis_x] == OL) {
-				level+=1;
-				restartlevel=1;
-			}
-			else {
-				(*object)[*player_y][*player_x]=1;
-				(*object)[*player_y+(0-dis_y)][*player_x+(0-dis_x)]=0;
-				*player_y+=dis_y,*player_x+=dis_x;
+if(walls(0-dis_y,0-dis_x,*player_y,*player_x,PLAYER,&(*struclevel))) {
+	if((*object)[*player_y+(0-dis_y)][*player_x+(0-dis_x)]) {
+		if(walls(dis_y,dis_x,*player_y,*player_x,PLAYER,&(*struclevel))) {
+			if(!((*object)[*player_y+dis_y][*player_x+dis_x])) {
+				if((*struclevel)[*player_y+dis_y][*player_x+dis_x] == V||(*struclevel)[*player_y+dis_y][*player_x+dis_x] == Y) {
+					if((*struclevel)[*player_y+dis_y][*player_x+dis_x] == V) {
+						game_over(VOID);
+					}
+					else {
+						game_over(ACID);
+					}
+				}
+				else if((*struclevel)[*player_y+dis_y][*player_x+dis_x] == OL) {
+					level+=1;
+					restartlevel=1;
+				}
+				else {
+					(*object)[*player_y][*player_x]=1;
+					(*object)[*player_y+(0-dis_y)][*player_x+(0-dis_x)]=0;
+					*player_y+=dis_y,*player_x+=dis_x;
+				}
 			}
 		}
 	}
@@ -604,7 +734,12 @@ else {*pullright=0;}
 	if (walls(dis_y,dis_x,*player_y,*player_x,PLAYER,&(*struclevel))) {
 		if (!((*object)[*player_y+dis_y][*player_x+dis_x])) {
 			if ((*struclevel)[*player_y+dis_y][*player_x+dis_x] == V||(*struclevel)[*player_y+dis_y][*player_x+dis_x] == Y) {
-				game_over();
+				if((*struclevel)[*player_y+dis_y][*player_x+dis_x] == V) {
+					game_over(VOID);
+				}
+				else {
+					game_over(ACID);
+				}
 			}
 			else if ((*struclevel)[*player_y+dis_y][*player_x+dis_x] == OL) {
 				level +=1;
@@ -1555,7 +1690,7 @@ printf(" ########                                   \n");
 printf("                                            \n");
 }
 else if(lang==RU) {
-printf("Отчёт о испытуемом № %03d                    \n",deaths);                                                                                                                                              
+printf("Отчёт об испытуемом № %03d                   \n",deaths);                                                                                                                                              
 printf("                                            \n");                                                                                                                                                
 printf("Эффективность испытуемого %d%%\n",efficiency);                                                                                                                                                   
 printf("                                            \n");
@@ -1596,7 +1731,7 @@ printf(" ########                                   \n");
 printf("                                            \n");
 }
 else if(lang==RU) {
-printf("Отчёт о испытуемом № %03d                    \n",deaths);                                                                                                                                              
+printf("Отчёт об испытуемом № %03d                   \n",deaths);                                                                                                                                              
 printf("                                            \n");                                                                                                                                                
 printf("Эффективность испытуемого %d%%\n",efficiency);                                                                                                                                                   
 printf("                                            \n");
@@ -1637,7 +1772,7 @@ printf(" ########                                   \n");
 printf("                                            \n");
 }
 else if(lang==RU) {
-printf("Отчёт о испытуемом № %03d                    \n",deaths);                                                                                                                                              
+printf("Отчёт об испытуемом № %03d                   \n",deaths);                                                                                                                                              
 printf("                                            \n");                                                                                                                                                
 printf("Эффективность испытуемого %d%%\n",efficiency);                                                                                                                                                   
 printf("                                            \n");
@@ -1659,21 +1794,8 @@ break;
 }
 } //конец кадра катсцены
 while (1) { //начало кадра катсцены
-clear();
-printf("                                            \n");                                                                                                                                                   
-printf("                                            \n");                                                                                                                                                   
-printf("                                            \n");                                                                                                                                                   
-printf("                                            \n");                                                                                                                                                   
-printf("                                            \n");                                                                                                                                                   
-printf("                                            \n");                                                                                                                                                   
-printf("                                            \n");                                                                                                                                                   
-printf("                                            \n");                                                                                                                                                   
-printf("                                            \n");                                                                                                                                                   
-printf("                                            \n");
-inputt(&input);
-if (input=='C'||input=='c') {
+game_over(END);
 break;
-}
 } //конец кадра катсцены
 while (1) { //начало кадра катсцены
 clear();
@@ -1693,7 +1815,6 @@ printf("                                            \n");
 printf("                                            \n");                                                                                                                                                   
 printf("                                            \n");
 inputt(&input);
-if (input=='C'||input=='c') {
 break;
 }
 } //конец кадра катсцены
@@ -1756,7 +1877,7 @@ if (x>=3||*step>=1) {
 		printf("Report on Subject № ");
 	}
 	else if (lang==RU) {
-		printf("Отчёт о испытуемом № ");
+		printf("Отчёт об испытуемом № ");
 	}
 	printf("%03d",deaths);
 }
@@ -1847,7 +1968,7 @@ unsigned char struclevel[10][44] = {
  {V,W,W,W,W,W,W,W,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //6  D=конвеер_вправо
  {V,W,F,F,F,F,F,F,L,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //7  B=кнопка
  {V,W,W,W,W,W,W,W,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //8  Y=кислота
- {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}};//9  X=лазер(раздатчик)
+ {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}};//9  X=лазер(источник)
 unsigned char object[10][44] = {
 //                    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3
 //0 1 2 3 4 5 6 7 8 9 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 4 4 4 4
@@ -1901,7 +2022,7 @@ unsigned char struclevel[10][44] = {
  {V,V,V,V,V,V,V,V,V,V,W,W,W,W,W,W,W,W,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //6  D=конвеер_вправо
  {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //7  B=кнопка L=дверь
  {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //8  Y=кислота
- {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}};//9  X=лазер(раздатчик)
+ {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}};//9  X=лазер(источник)
 unsigned char object[10][44] = {
 //                    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3
 //0 1 2 3 4 5 6 7 8 9 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 4 4 4 4
@@ -1949,7 +2070,7 @@ unsigned char struclevel[10][44] = {
  {V,V,V,V,V,V,V,V,V,V,W,F,F,F,Y,F,F,L,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //6  D=конвеер_вправо
  {V,V,V,V,V,V,V,V,V,V,W,W,W,W,W,W,W,W,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //7  B=кнопка L=дверь
  {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //8  Y=кислота
- {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}};//9  X=лазер(раздатчик)
+ {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}};//9  X=лазер(источник)
 unsigned char object[10][44] = {
 //                    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3
 //0 1 2 3 4 5 6 7 8 9 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 4 4 4 4
@@ -1997,7 +2118,7 @@ unsigned char struclevel[10][44] = {
  {V,V,V,F,F,F,V,F,F,F,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //6  D=конвеер_вправо
  {V,V,V,F,L,F,V,F,F,F,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //7  B=кнопка L=дверь
  {V,V,V,F,F,F,V,F,F,F,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //8  Y=кислота
- {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}};//9  X=лазер(раздатчик)
+ {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}};//9  X=лазер(источник)
 unsigned char object[10][44] = {
 //                    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3
 //0 1 2 3 4 5 6 7 8 9 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 4 4 4 4
@@ -2045,7 +2166,7 @@ unsigned char struclevel[10][44] = {
  {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,W,F,F,F,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //6  D=конвеер_вправо
  {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,W,F,B,F,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //7  B=кнопка
  {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,W,F,F,F,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //8  Y=кислота
- {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,W,W,W,W,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}};//9  X=лазер(раздатчик)
+ {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,W,W,W,W,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}};//9  X=лазер(источник)
 unsigned char object[10][44] = {
 //                    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3
 //0 1 2 3 4 5 6 7 8 9 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 4 4 4 4
@@ -2093,7 +2214,7 @@ unsigned char struclevel[10][44] = {
  {V,V,V,V,V,V,V,V,V,W,W,W,W,X,W,W,W,X,W,W,W,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //6  D=конвеер_вправо
  {V,V,V,V,V,V,V,V,V,V,V,V,W,W,W,V,W,W,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //7  B=кнопка L=дверь
  {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //8  Y=кислота
- {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}};//9  X=лазер(раздатчик)
+ {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}};//9  X=лазер(источник)
 unsigned char object[10][44] = {
 //                    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3
 //0 1 2 3 4 5 6 7 8 9 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 4 4 4 4
@@ -2141,7 +2262,7 @@ unsigned char struclevel[10][44] = {
  {V,V,V,V,V,V,V,W,W,W,F,W,Y,W,F,W,W,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //6  D=конвеер_вправо
  {V,V,V,V,V,V,V,V,V,W,F,W,Y,W,F,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //7  B=кнопка
  {V,V,V,V,V,V,V,V,V,W,F,F,F,F,F,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //8  Y=кислота
- {V,V,V,V,V,V,V,V,V,W,W,W,W,W,W,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}};//9  X=лазер(раздатчик)
+ {V,V,V,V,V,V,V,V,V,W,W,W,W,W,W,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}};//9  X=лазер(источник)
 unsigned char object[10][44] = {
 //                    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3
 //0 1 2 3 4 5 6 7 8 9 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 4 4 4 4
@@ -2189,7 +2310,7 @@ unsigned char struclevel[10][44] = {
  {V,V,V,V,V,V,V,V,V,V,W,W,F,F,V,F,F,F,F,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //6  D=конвеер_вправо
  {V,V,V,V,V,V,V,V,V,V,V,W,F,F,V,V,V,B,F,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //7  B=кнопка L=дверь
  {V,V,V,V,V,V,V,V,V,V,V,W,W,W,W,W,W,W,W,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //8  Y=кислота
- {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}};//9  X=лазер(раздатчик)
+ {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}};//9  X=лазер(источник)
 unsigned char object[10][44] = {
 //                    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3
 //0 1 2 3 4 5 6 7 8 9 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 4 4 4 4
@@ -2237,7 +2358,7 @@ unsigned char struclevel[10][44] = {
  {V,V,V,V,V,F,V,F,F,F,V,F,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //6  D=конвеер_вправо
  {V,V,V,V,V,F,V,V,F,V,V,F,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //7  B=кнопка
  {V,V,V,V,V,B,F,F,F,F,F,F,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //8  Y=кислота
- {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}};//9  X=лазер(раздатчик)
+ {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}};//9  X=лазер(источник)
 unsigned char object[10][44] = {
 //                    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3
 //0 1 2 3 4 5 6 7 8 9 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 4 4 4 4
@@ -2285,7 +2406,7 @@ unsigned char struclevel[10][44] = {
  {V,V,V,V,V,V,V,V,W,W,L,Y,F,F,F,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //6  D=конвеер_вправо
  {V,V,V,V,V,V,V,V,V,V,W,F,F,F,F,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //7  B=кнопка
  {V,V,V,V,V,V,V,V,V,V,W,W,W,W,B,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //8  Y=кислота
- {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}};//9  X=лазер(раздатчик)
+ {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}};//9  X=лазер(источник)
 unsigned char object[10][44] = {
 //                    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3
 //0 1 2 3 4 5 6 7 8 9 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 4 4 4 4
@@ -2333,7 +2454,7 @@ unsigned char struclevel[10][44] = {
  {V,V,V,W,F,F,F,F,F,F,Y,F,F,U,W,V,V,V,V,V,V,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //6  D=конвеер_вправо
  {V,V,V,W,F,F,F,Y,Y,D,F,F,F,D,D,D,D,D,D,V,V,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //7  B=кнопка
  {V,V,V,W,W,W,W,W,W,W,W,W,W,W,W,X,X,X,X,W,W,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //8  Y=кислота
- {V,V,V,V,V,V,V,V,V,V,V,V,V,V,W,W,W,W,W,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}};//9  X=лазер(раздатчик)
+ {V,V,V,V,V,V,V,V,V,V,V,V,V,V,W,W,W,W,W,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}};//9  X=лазер(источник)
 unsigned char object[10][44] = {
 //                    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3
 //0 1 2 3 4 5 6 7 8 9 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 4 4 4 4
@@ -2381,7 +2502,7 @@ unsigned char struclevel[10][44] = {
  {V,V,V,W,L,D,A,A,C,L,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //6  D=конвеер_вправо
  {V,V,V,W,W,W,W,W,W,W,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //7  B=кнопка
  {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //8  Y=кислота
- {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}};//9  X=лазер(раздатчик)
+ {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}};//9  X=лазер(источник)
 unsigned char object[10][44] = {
 //                    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3
 //0 1 2 3 4 5 6 7 8 9 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 4 4 4 4
@@ -2429,7 +2550,7 @@ unsigned char struclevel[10][44] = {
  {V,V,V,W,F,F,W,V,F,F,F,C,C,F,F,F,V,V,F,F,F,V,V,U,X,A,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //6  D=конвеер_вправо
  {V,V,V,W,F,F,W,V,F,W,F,V,V,V,V,V,D,U,F,F,F,V,V,U,X,A,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //7  B=кнопка
  {V,V,V,W,F,F,W,V,F,F,F,F,D,D,D,D,A,C,F,F,F,V,V,U,X,A,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //8  Y=кислота
- {V,V,V,W,W,W,W,W,W,W,W,W,W,W,W,W,X,W,W,W,W,W,W,D,D,A,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}};//9  X=лазер(раздатчик)
+ {V,V,V,W,W,W,W,W,W,W,W,W,W,W,W,W,X,W,W,W,W,W,W,D,D,A,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}};//9  X=лазер(источник)
 unsigned char object[10][44] = {
 //                    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3
 //0 1 2 3 4 5 6 7 8 9 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 4 4 4 4
@@ -2477,7 +2598,7 @@ unsigned char struclevel[10][44] = {
  {V,V,V,V,W,W,A,A,C,C,C,C,U,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //6  D=конвеер_вправо
  {V,V,V,V,V,W,A,C,C,C,C,C,C,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //7  B=кнопка
  {V,V,V,V,V,W,W,W,W,W,W,W,W,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //8  Y=кислота
- {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}};//9  X=лазер(раздатчик)
+ {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}};//9  X=лазер(источник)
 unsigned char object[10][44] = {
 //                    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3
 //0 1 2 3 4 5 6 7 8 9 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 4 4 4 4
@@ -2525,7 +2646,7 @@ unsigned char struclevel[10][44] = {
  {W,W,A,A,A,W,W,F,F,U,U,U,A,A,A,F,F,W,W,U,U,U,W,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //6  D=конвеер_вправо
  {W,W,A,A,A,C,C,C,C,C,U,U,A,A,A,C,C,C,C,C,U,U,X,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //7  B=кнопка
  {W,W,A,A,C,C,C,C,C,C,C,U,A,A,C,C,C,C,C,C,C,U,X,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //8  Y=кислота
- {W,W,A,C,C,C,C,C,C,C,C,C,A,C,C,C,C,C,C,C,C,C,X,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}};//9  X=лазер(раздатчик)
+ {W,W,A,C,C,C,C,C,C,C,C,C,A,C,C,C,C,C,C,C,C,C,X,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}};//9  X=лазер(источник)
 unsigned char object[10][44] = {
 //                    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3
 //0 1 2 3 4 5 6 7 8 9 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 4 4 4 4
@@ -2573,7 +2694,7 @@ unsigned char struclevel[10][44] = {
  {V,W,B,B,B,W,W,F,W,W,W,F,W,W,W,F,W,X,Y,F,F,W,F,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //6  D=конвеер_вправо
  {V,W,W,W,W,W,F,F,F,W,U,C,C,W,F,F,F,F,Y,F,F,W,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //7  B=кнопка
  {V,W,X,U,F,F,F,F,F,W,U,Y,A,W,F,F,F,Y,Y,F,F,F,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //8  Y=кислота
- {V,W,W,A,F,F,F,F,F,W,D,D,A,W,F,F,F,F,F,F,F,F,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}};//9  X=лазер(раздатчик)
+ {V,W,W,A,F,F,F,F,F,W,D,D,A,W,F,F,F,F,F,F,F,F,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}};//9  X=лазер(источник)
 unsigned char object[10][44] = {
 //                    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3
 //0 1 2 3 4 5 6 7 8 9 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 4 4 4 4
@@ -2660,7 +2781,7 @@ int main(void) {
 calebritewindow();
 while (1) {
 clear();
-printf("v2                                        /\\\n");
+printf("v3                                        /\\\n");
 printf("                ###########               \\/\n");
 printf("                #\e[41mC.T.S.L.I\e[0m#                 \n");
 printf("          #######################           \n");
