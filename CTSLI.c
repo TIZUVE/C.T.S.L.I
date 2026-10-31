@@ -1,4 +1,4 @@
-//v3
+//v4
 #include <stdio.h>
 
 #define PLAYER 0
@@ -256,19 +256,19 @@ if(lang==EN) {
 if(type==ACID) {
 printf("                    ===================     \n");
 printf(" Game over          =                 =     \n");
-printf("                    = Subgect № %03d   =    \n",deaths);
+printf("                    = Subject № %03d   =    \n",deaths);
 printf("                    =                 =     \n");
 printf("                    = Cause of death: =     \n");
 printf("                    =                 =     \n");
-printf(" R = Return         = Wanted to touch =     \n");
-printf("                    = the acid.       =     \n");
+printf(" R = Return         = Wanted to swim  =     \n");
+printf("                    = in acid.        =     \n");
 printf(" E = Exit           =                 =     \n");
 printf("                    ===================     \n");
 }
 else if(type==VOID) {
 printf("                    ===================     \n");
 printf(" Game over          =                 =     \n");
-printf("                    = Subgect № %03d   =    \n",deaths);
+printf("                    = Subject № %03d   =    \n",deaths);
 printf("                    =                 =     \n");
 printf("                    = Cause of death: =     \n");
 printf("                    =                 =     \n");
@@ -280,7 +280,7 @@ printf("                    ===================     \n");
 else if(type==LASER) {
 printf("                    ===================     \n");
 printf(" Game over          =                 =     \n");
-printf("                    = Subgect № %03d   =    \n",deaths);
+printf("                    = Subject № %03d   =    \n",deaths);
 printf("                    =                 =     \n");
 printf("                    = Cause of death: =     \n");
 printf("                    =                 =     \n");
@@ -292,7 +292,7 @@ printf("                    ===================     \n");
 else if(type==END) {
 printf("                    ===================     \n");
 printf(" Game over          =                 =     \n");
-printf("                    = Subgect № %03d   =    \n",deaths);
+printf("                    = Subject № %03d   =    \n",deaths);
 printf("                    =                 =     \n");
 printf("                    = Cause of death: =     \n");
 printf("                    =                 =     \n");
@@ -322,8 +322,8 @@ printf("                    = Субъект № %03d   =    \n",deaths);
 printf("                    =                 =     \n");
 printf("                    = Причина смерти: =     \n");
 printf("                    =                 =     \n");
-printf(" R = Return         = Хотел потрогать =     \n");
-printf("                    = кислоту.        =     \n");
+printf(" R = Return         = Хотел поплавать =     \n");
+printf("                    = в кислоте.      =     \n");
 printf(" E = Exit           =                 =     \n");
 printf("                    ===================     \n");
 }
@@ -1816,7 +1816,6 @@ printf("                                            \n");
 printf("                                            \n");
 inputt(&input);
 break;
-}
 } //конец кадра катсцены
 } //конец катсцены
 else if (id_cutscenes == END_NO_EFFECTIVE) { //начало катсцены
@@ -2548,8 +2547,8 @@ unsigned char struclevel[10][44] = {
  {V,V,V,L,F,F,F,F,F,V,V,V,V,F,F,V,V,V,V,F,V,V,W,U,X,A,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //4  C=конвеер_влево
  {V,V,V,L,F,F,F,F,F,V,V,V,V,F,F,F,V,V,V,F,V,V,W,U,X,A,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //5  U=конвеер_вниз
  {V,V,V,W,F,F,W,V,F,F,F,C,C,F,F,F,V,V,F,F,F,V,V,U,X,A,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //6  D=конвеер_вправо
- {V,V,V,W,F,F,W,V,F,W,F,V,V,V,V,V,D,U,F,F,F,V,V,U,X,A,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //7  B=кнопка
- {V,V,V,W,F,F,W,V,F,F,F,F,D,D,D,D,A,C,F,F,F,V,V,U,X,A,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //8  Y=кислота
+ {V,V,V,W,F,F,W,V,F,W,F,V,V,V,V,V,D,C,F,F,F,V,V,U,X,A,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //7  B=кнопка
+ {V,V,V,W,F,F,W,V,F,F,F,F,D,D,D,D,A,V,F,F,F,V,V,U,X,A,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}, //8  Y=кислота
  {V,V,V,W,W,W,W,W,W,W,W,W,W,W,W,W,X,W,W,W,W,W,W,D,D,A,W,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}};//9  X=лазер(источник)
 unsigned char object[10][44] = {
 //                    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3
@@ -2736,41 +2735,434 @@ unsigned char object[10][44] = {
 }
 
 void select_level(void) {
+level=1;
 while(1) {
 deaths=0;
 action_counter=0;
 efficiency=0;
 exitlevel=0;
 clear();
-if (lang==EN) {
-printf("        Enter the number of the level       \n");
-printf("             you want to enter              \n");
+if(level==1) {
+if(lang==EN) {
+printf("Cube /                                      \n");
+printf("====/                  _______              \n");
+printf("№ 1/                  /      /|             \n");
+printf("==/                  /______/ |             \n");
+printf("                     |      | |             \n");
+printf("                     |      | /             \n");
+printf("                     |______|/              \n");
+printf("                                    /=======\n");
+printf("                      /============/ P=Play \n");
+printf("                     / N=Next B=Back E=Exit \n");
+}
+else if(lang==RU) {
+printf("Куб  /                                      \n");
+printf("====/                  _______              \n");
+printf("№ 1/                  /      /|             \n");
+printf("==/                  /______/ |             \n");
+printf("                     |      | |             \n");
+printf("                     |      | /             \n");
+printf("                     |______|/              \n");
+printf("                                    /=======\n");
+printf("                      /============/ P=Play \n");
+printf("                     / N=Next B=Back E=Exit \n");
+}
+}
+else if (level==2) {
+if(lang==EN) {
+printf("Acid /     =~~~~=                           \n");
+printf("====/       =~~~==                          \n");
+printf("№ 2/         =~~~~=                         \n");
+printf("==/           ==~~~==                       \n");
+printf("                =~~~~=                      \n");
+printf("                 ==~~~=                     \n");
+printf("                =~~~~=                      \n");
+printf("                ==~~~=              /=======\n");
+printf("               =~~~== /============/ P=Play \n");
+printf("              =~~~~~=/ N=Next B=Back E=Exit \n");
+}
+else if(lang==RU) {
+printf("Кислота/   =~~~~=                           \n");
+printf("======/     =~~~==                          \n");
+printf("№ 2/         =~~~~=                         \n");
+printf("==/           ==~~~==                       \n");
+printf("                =~~~~=                      \n");
+printf("                 ==~~~=                     \n");
+printf("                =~~~~=                      \n");
+printf("                ==~~~=              /=======\n");
+printf("               =~~~== /============/ P=Play \n");
+printf("              =~~~~~=/ N=Next B=Back E=Exit \n");
+}
+}
+else if (level==3) {
+if(lang==EN) {
+printf("Void /                                      \n");
+printf("====/                                       \n");
+printf("№ 3/                                        \n");
+printf("==/                                         \n");
 printf("                                            \n");
-printf("  1(cube    ) 7 (bridge  ) 13(orbits  )     \n");
-printf("  2(acid    ) 8 (circles ) 14(vortices)     \n");
-printf("  3(void    ) 9 (studio  ) 15(rooms   )     \n");
-printf("  4(conveyor) 10(one cube)                  \n");
-printf("  5(lasers  ) 11(centre  ) 0 to get out     \n");
-printf("  6(beam    ) 12(ejection)                  \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                    /=======\n");
+printf("                      /============/ P=Play \n");
+printf("                     / N=Next B=Back E=Exit \n");
+}
+else if(lang==RU) {
+printf("Пустота/                                    \n");
+printf("======/                                     \n");
+printf("№ 3/                                        \n");
+printf("==/                                         \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                    /=======\n");
+printf("                      /============/ P=Play \n");
+printf("                     / N=Next B=Back E=Exit \n");
+}
+}
+else if (level==4) {
+if(lang==EN) {
+printf("Conveyor/                                   \n");
+printf("=======/                                    \n");
+printf("№ 4/                                        \n");
+printf("==/           #######                       \n");
+printf("              #     #                       \n");
+printf("              #     #                       \n");
+printf("    __________#_____#_____________          \n");
+printf("   /#                            #N /=======\n");
+printf("  |#0#                /============/ P=Play \n");
+printf("   N#________________/ N=Next B=Back E=Exit \n");
+}
+else if(lang==RU) {
+printf("конвейер/                                   \n");
+printf("=======/                                    \n");
+printf("№ 4/                                        \n");
+printf("==/           #######                       \n");
+printf("              #     #                       \n");
+printf("              #     #                       \n");
+printf("    __________#_____#_____________          \n");
+printf("   /#                            #N /=======\n");
+printf("  |#0#                /============/ P=Play \n");
+printf("   N#________________/ N=Next B=Back E=Exit \n");
+}
+}
+else if (level==5) {
+if(lang==EN) {
+printf("WIP                                         \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
 printf("                                            \n");
 }
-else if (lang==RU) {
-printf("            Введите номер уровня            \n");
-printf("          который вы хотите начать          \n");
+else if(lang==RU) {
+printf("WIP                                         \n");
 printf("                                            \n");
-printf("  1(куб     ) 7 (мост    ) 13(орбиты  )     \n");
-printf("  2(кислота ) 8 (круги   ) 14(вихри   )     \n");
-printf("  3(пустота ) 9 (студия  ) 15(комнаты )     \n");
-printf("  4(конвейер) 10(друг куб)                  \n");
-printf("  5(лазеры  ) 11(к центру) 0 что бы выйти   \n");
-printf("  6(луч     ) 12(выброс  )                  \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
 printf("                                            \n");
 }
-numinputt(&level);
-if (level == 0) {
-break;
+}
+else if (level==6) {
+if(lang==EN) {
+printf("WIP                                         \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+}
+else if(lang==RU) {
+printf("WIP                                         \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+}
+}
+else if (level==7) {
+if(lang==EN) {
+printf("WIP                                         \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+}
+else if(lang==RU) {
+printf("WIP                                         \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+}
+}
+else if (level==8) {
+if(lang==EN) {
+printf("WIP                                         \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+}
+else if(lang==RU) {
+printf("WIP                                         \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+}
+}
+else if (level==9) {
+if(lang==EN) {
+printf("WIP                                         \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+}
+else if(lang==RU) {
+printf("WIP                                         \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+}
+}
+else if (level==10) {
+if(lang==EN) {
+printf("WIP                                         \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+}
+else if(lang==RU) {
+printf("WIP                                         \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+}
+}
+else if (level==11) {
+if(lang==EN) {
+printf("WIP                                         \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+}
+else if(lang==RU) {
+printf("WIP                                         \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+}
+}
+else if (level==12) {
+if(lang==EN) {
+printf("WIP                                         \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+}
+else if(lang==RU) {
+printf("WIP                                         \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+}
+}
+else if (level==13) {
+if(lang==EN) {
+printf("WIP                                         \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+}
+else if(lang==RU) {
+printf("WIP                                         \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+}
+}
+else if (level==14) {
+if(lang==EN) {
+printf("WIP                                         \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+}
+else if(lang==RU) {
+printf("WIP                                         \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+}
+}
+else if (level==15) {
+if(lang==EN) {
+printf("WIP                                         \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+}
+else if(lang==RU) {
+printf("WIP                                         \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+}
 }
 else {
+if(lang==EN) {
+printf("error level/                                \n");
+printf("==========/                                 \n");
+printf("№ none/                                     \n");
+printf("=====/                                      \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                            \n");
+printf("                                    /=======\n");
+printf("                      /============/ P=Play \n");
+printf("                     / N=Next B=Back E=Exit \n");
+}
+}
+inputt(&input);
+if(input=='E'||input=='e') {
+break;
+}
+else if(input=='N'||input=='n') {
+level++;
+	if(level>15) {
+		level=1;
+	}
+}
+else if(input=='B'||input=='b') {
+level--;
+	if(level<1) {
+		level=15;
+	}
+}
+else if(input=='P'||input=='p') {
 start_level=level;
 play_level();
 }
@@ -2781,7 +3173,7 @@ int main(void) {
 calebritewindow();
 while (1) {
 clear();
-printf("v3                                        /\\\n");
+printf("v4                                        /\\\n");
 printf("                ###########               \\/\n");
 printf("                #\e[41mC.T.S.L.I\e[0m#                 \n");
 printf("          #######################           \n");
